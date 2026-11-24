@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS marts.dim_products;
-
 CREATE TABLE marts.dim_products AS
 SELECT
     p.product_id,
