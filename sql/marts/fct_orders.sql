@@ -32,6 +32,13 @@ SELECT
     o.delivered_to_carrier_at,
     o.delivered_to_customer_at,
     o.estimated_delivery_date,
+    -- delivery measures (only for delivered orders)
+    o.delivered_to_customer_at::date - o.purchased_at::date             AS delivery_days,
+    o.delivered_to_customer_at::date - o.estimated_delivery_date        AS days_vs_estimate,
+    CASE
+        WHEN o.delivered_to_customer_at IS NULL THEN NULL
+        ELSE o.delivered_to_customer_at::date > o.estimated_delivery_date
+    END                                                                 AS is_late,
     -- measures from items and payments
     COALESCE(i.item_count, 0)          AS item_count,
     COALESCE(i.order_revenue, 0)       AS order_revenue,
